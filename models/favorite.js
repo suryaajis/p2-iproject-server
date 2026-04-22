@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Favorite',
+    indexes: [
+      { unique: true, fields: ['UserId', 'SongId'] }
+    ]
   });
   return Favorite;
 };

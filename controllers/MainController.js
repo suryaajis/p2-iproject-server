@@ -45,6 +45,9 @@ class MainController {
         throw { name: "NotFound" };
       }
 
+      const existing = await Favorite.findOne({ where: { UserId: req.user.id, SongId: foundSong.id } })
+      if (existing) throw { name: "AlreadyExists" }
+
       const response = await Favorite.create({
         UserId: req.user.id,
         SongId: foundSong.id,
@@ -81,6 +84,9 @@ class MainController {
       const { status } = req.body;
       const favoriteId = +req.params.id;
 
+      const validStatuses = ["Good", "Neutral", "Bad"];
+      if (!validStatuses.includes(status)) throw { name: "InvalidStatus" };
+
       await Favorite.update(
         { status },
         {
@@ -90,7 +96,8 @@ class MainController {
         }
       );
 
-      res.status(200).json({message: "Status has been changed"})
+      const updated = await Favorite.findByPk(favoriteId)
+      res.status(200).json({ message: "Status has been changed", favorite: updated })
     } catch (err) {
       next(err);
     }

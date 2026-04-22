@@ -1,21 +1,23 @@
 {
   "development": {
     "username": "postgres",
-    "password": "surya123456",
-    "database": "MusicDB",
-    "host": "127.0.0.1",
+    "password": "root",
+    "database": "sun_music_db",
+    "host": "localhost",
+    "port": 5433,
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "surya123456",
+    "password": "root",
     "database": "database_test",
     "host": "127.0.0.1",
+    "port": 5432,
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "surya123456",
+    "password": "root",
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "postgres"

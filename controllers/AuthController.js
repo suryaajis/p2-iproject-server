@@ -10,6 +10,10 @@ class AuthController {
     try {
       const { fullName, email, password, phone, address, imgUrl } = req.body;
 
+      if (password && password.length < 6) {
+        throw { name: "ValidationError", message: "Password must be at least 6 characters" };
+      }
+
       const response = await User.create({
         fullName,
         email,
@@ -38,6 +42,10 @@ class AuthController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
+
+      if (!email || !password) {
+        throw { name: "InvalidQuery", message: "Email and password are required" };
+      }
 
       const response = await User.findOne({
         where: {
@@ -113,7 +121,15 @@ class AuthController {
     try {
       const response = await User.findByPk(req.user.id)
 
-      res.status(200).json(response)
+      res.status(200).json({
+        id: response.id,
+        fullName: response.fullName,
+        email: response.email,
+        role: response.role,
+        imgUrl: response.imgUrl,
+        phone: response.phone,
+        address: response.address
+      })
     } catch (err) {
       next(err)
     }
